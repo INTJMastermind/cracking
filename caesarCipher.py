@@ -12,7 +12,8 @@ key = int(input('What is the encryption key: '))
 mode = input('Please type "encrypt" or "decrypt": ')
 
 # Every posible symbol that can be encrypted:
-SYMBOLS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz12345  67890 !?.`~@#$%^&*()_+-=[]{}|;:<>,/'
+#SYMBOLS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz12345  67890 !?.`~@#$%^&*()_+-=[]{}|;:<>,/'
+SYMBOLS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890 !?.'
 
 # Store the encrypted / decrypted form of the message:
 translated = ''
