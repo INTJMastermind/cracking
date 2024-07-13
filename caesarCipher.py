@@ -12,7 +12,7 @@ key = int(input('What is the encryption key: '))
 mode = input('Please type "encrypt" or "decrypt": ')
 
 # Every posible symbol that can be encrypted:
-SYMBOLS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890 !?.'
+SYMBOLS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz12345  67890 !?.`~@#$%^&*()_+-=[]{}|;:<>,/'
 
 # Store the encrypted / decrypted form of the message:
 translated = ''
@@ -29,9 +29,10 @@ for symbol in message:
             translatedIndex = symbolIndex - key
 
         #Handle wraparound, if needed:
-        if translatedIndex >= len(SYMBOLS):
+        while translatedIndex >= len(SYMBOLS):
             translatedIndex = translatedIndex - len(SYMBOLS)
-        elif translatedIndex < 0:
+
+        while translatedIndex < 0:
             translatedIndex = translatedIndex + len(SYMBOLS)
 
         translated = translated + SYMBOLS[translatedIndex]
