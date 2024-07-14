@@ -75,12 +75,15 @@ def drawGrid(grid):
     for row in grid: print(row)
     print("")
 
-def recurseCoord(coord, grid, size):
+def markIsland(coord, grid, size):
+    # Checks if neighbors of grid are land tiles ("1"), and if so, marks them as part
+    # of an existing island ("2"), and recursively checks if *their* neighbors are also land tiles.
     if checkGrid(coord, grid) == 1:
         updateGrid(coord, grid)
-        neighbors = getNeighbors2(coord, size)
+        #neighbors = getNeighbors(coord, size) # This version looks at 8 neighbors per square (diagonals included)
+        neighbors = getNeighbors2(coord, size) # This version looks at 4 neighbors per square (diagonals not included)
         for neighbor in neighbors:
-            recurseCoord(neighbor, grid, size)
+            markIsland(neighbor, grid, size) # Recursively looks at the neighbors of that square to see if they're also land tiles.
     return
 
 def islands(size):
@@ -89,10 +92,10 @@ def islands(size):
     numIslands = 0
     for x, row in enumerate(grid):
         for y, value in enumerate(row):
-            if value == 1:
+            if value == 1:  # If the tile at (x,y) is a land tile that's not part of an existing island...
                 numIslands += 1
                 coord = (x, y)
-                recurseCoord(coord, grid, size)
+                markIsland(coord, grid, size) # Recursively mark off all tiles that are part of that island.
 
     print(f"Number of islands is: {numIslands}")
     return numIslands
