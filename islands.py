@@ -42,7 +42,7 @@ def getNeighbors(coord, size):
 
 def getNeighbors2(coord, size):
     # Returns a list of coordinates of the neighbors of a square.
-    # This looks only at square directly above/below or left/right.
+    # This looks ONLY at squares directly above/below and left/right.
     # Diagonal neighbors don't count.
 
     row = coord[0]
