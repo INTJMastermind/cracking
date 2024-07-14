@@ -3,15 +3,15 @@ import random
 
 def makeGrid(size):
     grid = []
-    for row in range(0, size):
-        element = []
-        for file in range(0, size):
-            element.append(random.randint(0,1))
-        grid.append(element)
+    for _x in range(0, size):
+        row = []
+        for _y in range(0, size):
+            row.append(random.randint(0,1))
+        grid.append(row)
     return grid
 
 def getNeighbors(coord, size):
-    # Returns the coordinate of the neighbors of a square. This includes diagonal neighbors.
+    # Returns a list of coordinates of the neighbors of a square. This includes diagonal neighbors.
     row = coord[0]
     file = coord[1] 
 
@@ -41,7 +41,7 @@ def getNeighbors(coord, size):
     return(neighbors)
 
 def getNeighbors2(coord, size):
-    # Returns the coordinates of the neighbors of a square.
+    # Returns a list of coordinates of the neighbors of a square.
     # This looks only at square directly above/below or left/right.
     # Diagonal neighbors don't count.
 
@@ -63,12 +63,12 @@ def checkGrid(coord, grid):
     return(grid[row][file])
 
 def updateGrid(coord, grid):
-    # Sets the grid's value at coord to "2",
-    # which means that square is part of an already counted island.
+    # Sets the grid's value at coord to "2", which indicates 
+    # that square is part of an already counted island.
     row = coord[0]
     file = coord[1] 
     grid[row][file] = 2
-    return grid
+    return
 
 def drawGrid(grid):
     # Draws the grid
@@ -77,27 +77,25 @@ def drawGrid(grid):
 
 def recurseCoord(coord, grid, size):
     if checkGrid(coord, grid) == 1:
-        grid = updateGrid(coord, grid)
+        updateGrid(coord, grid)
         neighbors = getNeighbors2(coord, size)
         for neighbor in neighbors:
             recurseCoord(neighbor, grid, size)
-    return grid
+    return
 
 def islands(size):
     grid = makeGrid(size)
-    #drawGrid(grid)
+    drawGrid(grid)
     counter = 0
-    for x in range(0, size):
-        for y in range(0, size):
-            coord = [x, y]
-            if checkGrid(coord, grid) == 1:
+    for x, row in enumerate(grid):
+        for y, value in enumerate(row):
+            if value == 1:
                 counter += 1
-                grid = recurseCoord(coord, grid, size)
-                #print(counter)
-                #drawGrid(grid)
+                coord = [x, y]
+                recurseCoord(coord, grid, size)
 
-    print("Number of islands is:")
-    print(counter)
+    print(f"Number of islands is: {counter}")
     return counter
 
-islands(100)
+if __name__ == "__main__":
+    islands(10)
