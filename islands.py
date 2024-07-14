@@ -15,8 +15,8 @@ def getNeighbors(coord, size):
     row = coord[0]
     file = coord[1] 
 
-    possibleRows = [row-1, row, row+1]
-    possibleFiles = [file-1, file, file+1]
+    possibleRows = (row-1, row, row+1)
+    possibleFiles = (file-1, file, file+1)
 
     # Filter out the edge cases...
     filteredRows = []
@@ -35,8 +35,8 @@ def getNeighbors(coord, size):
 
     for r in filteredRows:
         for f in filteredFiles:
-            if [r, f] != [row, file]:   #exclude the original square
-                neighbors.append([r, f])
+            if (r, f) != (row, file):   #exclude the original square
+                neighbors.append((r, f))
 
     return(neighbors)
 
@@ -47,7 +47,7 @@ def getNeighbors2(coord, size):
 
     row = coord[0]
     file = coord[1] 
-    possibles = [[row-1, file], [row+1, file], [row, file-1], [row, file+1]]
+    possibles = [(row-1, file), (row+1, file), (row, file-1), (row, file+1)]
     neighbors = []
 
     for possible in possibles:
@@ -86,16 +86,16 @@ def recurseCoord(coord, grid, size):
 def islands(size):
     grid = makeGrid(size)
     drawGrid(grid)
-    counter = 0
+    numIslands = 0
     for x, row in enumerate(grid):
         for y, value in enumerate(row):
             if value == 1:
-                counter += 1
-                coord = [x, y]
+                numIslands += 1
+                coord = (x, y)
                 recurseCoord(coord, grid, size)
 
-    print(f"Number of islands is: {counter}")
-    return counter
+    print(f"Number of islands is: {numIslands}")
+    return numIslands
 
 if __name__ == "__main__":
     islands(10)
