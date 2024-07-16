@@ -49,25 +49,17 @@ def checkGrid(coord, grid, numRows, numFiles):
     else:
         return(int(grid[row][file]))
 
-def updateGrid(coord, grid):
-    # Sets the grid's value at coord to "2", which indicates 
-    # that square is part of an already counted island.
-    row = coord[0]
-    file = coord[1] 
-    grid[row][file] = 2
-    return
-
 def drawGrid(grid):
     # Draws the grid
     for row in grid: print(row)
     print("")
 
 def markIsland(coord, grid, numRows, numFiles):
-    # Checks if neighbors of grid are land tiles ("1"), and if so, marks them as part
-    # of an existing island ("2"), and recursively checks if *their* neighbors are also land tiles.
+    # Checks if a grid is previously unvisited land tile ("1"), and if so, marks them as part
+    # of the existing island ("2"), and recursively checks if their neighbors are also land tiles.
     # Note: We're passing numRows and numFiles because they're constants and not recalculating each time saves time.
     if checkGrid(coord, grid, numRows, numFiles) == 1:
-        updateGrid(coord, grid)
+        grid[coord[0]][coord[1]] = 2    # Sets the grid's value at coord to "2", which indicates that square is part of an already counted island.
         #neighbors = getNeighbors8(coord) # This version looks at 8 neighbors per square (diagonals included)
         neighbors = getNeighbors4(coord) # This version looks at 4 neighbors per square (diagonals not included)
         for neighbor in neighbors:
@@ -112,6 +104,14 @@ if __name__ == "__main__":
     drawGrid(grid)
     islands(grid)
 
-    grid = makeGrid(20, 20)
+    grid = [[1, 1, 1, 1, 1],
+            [1, 0, 0, 0, 1],
+            [1, 0, 1, 0, 1],
+            [1, 0, 0, 0, 1],
+            [1, 1, 1, 1, 1]]
+    drawGrid(grid)
+    islands(grid)
+
+    grid = makeGrid(6, 6)
     drawGrid(grid)
     islands(grid)
