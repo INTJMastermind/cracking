@@ -10,6 +10,7 @@ def make_grid(num_rows, num_cols):
         grid.append(row)
     return grid
 
+
 def get_neighbors8(coord):
     # Returns a set of coordinates of the neighbors of a square. This includes diagonal neighbors.
     row = coord[0]
@@ -25,7 +26,6 @@ def get_neighbors8(coord):
             neighbors.add((r, f))
 
     neighbors.remove((row, col)) # Remove the original square
-
     return(neighbors)
 
 
@@ -33,7 +33,6 @@ def get_neighbors4(coord):
     # Returns a set of coordinates of the neighbors of a square.
     # This looks ONLY at squares directly above/below and left/right.
     # Diagonal neighbors don't count.
-
     row = coord[0]
     col = coord[1] 
     return {(row-1, col), (row+1, col), (row, col-1), (row, col+1)}
@@ -43,16 +42,17 @@ def check_grid(coord, grid, num_rows, num_cols):
     # Checks the map grid at a coordinate. Returns a value of '0' if the coordinate is outside the bounds of the grid.
     row = coord[0]
     col = coord[1] 
-
     if row < 0 or row >= num_rows or col < 0 or col >= num_cols:
         return 0
     else:
         return(int(grid[row][col]))  # Convert to integer to take into account strings
 
+
 def draw_grid(grid):
     # Draws the grid
     for row in grid: print(row)
     print("")
+
 
 def mark_island(coord, grid, num_rows, num_cols):
     # Checks if a grid is previously unvisited land tile ("1"), and if so, marks them as part
@@ -64,7 +64,7 @@ def mark_island(coord, grid, num_rows, num_cols):
         neighbors = get_neighbors4(coord) # This version looks at 4 neighbors per square (diagonals not included)
         for neighbor in neighbors:
             mark_island(neighbor, grid, num_rows, num_cols) # Recursively looks at the neighbors of that square to see if they're also land tiles.
-    return
+
 
 def islands(grid):
     # Defines the number of islands in a grid.
@@ -80,6 +80,7 @@ def islands(grid):
 
     print(f"Number of islands is: {num_islands}\n")
     return num_islands
+
 
 if __name__ == "__main__":
     grid = [["1","1","1","1","0"],
