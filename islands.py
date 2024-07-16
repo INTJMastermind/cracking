@@ -48,7 +48,7 @@ def checkGrid(coord, grid, numRows, numFiles):
     if row < 0 or row >= numRows or file < 0 or file >= numFiles:
         return 0
     else:
-        return(grid[row][file])
+        return(int(grid[row][file]))
 
 def updateGrid(coord, grid):
     # Sets the grid's value at coord to "2", which indicates 
@@ -82,7 +82,7 @@ def islands(grid):
     numIslands = 0
     for x, row in enumerate(grid): # Move through the grid and...
         for y, value in enumerate(row):
-            if value == 1:  # ...if we encounter a tile that is a land tile that's not part of an existing island ('1')...
+            if int(value) == 1:  # ...if we encounter a tile that is a land tile that's not part of an existing island ('1')...
                 numIslands += 1 # ...increment the number of islands and...
                 coord = (x, y)
                 markIsland(coord, grid, numRows, numFiles) # ...recursively mark off all tiles that are part of that island.
@@ -91,6 +91,28 @@ def islands(grid):
     return numIslands
 
 if __name__ == "__main__":
-    grid = makeGrid(4, 5)
+    grid = [["1","1","1","1","0"],
+            ["1","1","0","1","0"],
+            ["1","1","0","0","0"],
+            ["0","0","0","0","0"]]
+    drawGrid(grid)
+    islands(grid)
+
+    grid = [["1","1","0","0","0"],
+            ["1","1","0","0","0"],
+            ["0","0","1","0","0"],
+            ["0","0","0","1","1"]]
+    drawGrid(grid)
+    islands(grid)
+
+    grid = [[1, 1, 0, 0, 0],
+            [0, 1, 0, 0, 1],
+            [1, 0, 0, 1, 1],
+            [0, 0, 0, 0, 0],
+            [1, 0, 1, 0, 1]]
+    drawGrid(grid)
+    islands(grid)
+
+    grid = makeGrid(10, 12)
     drawGrid(grid)
     islands(grid)
