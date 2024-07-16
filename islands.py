@@ -87,7 +87,7 @@ def islands(grid):
                 coord = (x, y)
                 markIsland(coord, grid, numRows, numFiles) # ...recursively mark off all tiles that are part of that island.
 
-    print(f"Number of islands is: {numIslands}")
+    print(f"Number of islands is: {numIslands}\n")
     return numIslands
 
 if __name__ == "__main__":
@@ -113,6 +113,6 @@ if __name__ == "__main__":
     drawGrid(grid)
     islands(grid)
 
-    grid = makeGrid(10, 12)
+    grid = makeGrid(20, 20)
     drawGrid(grid)
     islands(grid)
