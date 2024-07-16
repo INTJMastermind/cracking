@@ -1,5 +1,4 @@
 # Compute the number of islands in a grid
-#import random
 
 def makeGrid(numRows, numFiles):
     import random
