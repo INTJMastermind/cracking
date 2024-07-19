@@ -18,6 +18,7 @@ def get_neighbors8(coord):
     neighbors.remove((row, col)) # Remove the original square
     return(neighbors)
 
+
 def get_neighbors4(coord):
     # Returns a set of coordinates of the neighbors of a square.
     # This looks ONLY at squares directly above/below and left/right.
