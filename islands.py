@@ -50,8 +50,8 @@ def mark_island(coord, grid, num_rows, num_cols):
     # Note: We're passing num_rows and num_cols because they're constants and not recalculating each time saves time.
     if check_grid(coord, grid, num_rows, num_cols) == 1:
         grid[coord[0]][coord[1]] = 2    # Sets the grid's value at coord to "2", which indicates that square is part of an already counted island.
-        neighbors = get_neighbors8(coord) # This version looks at 8 neighbors per square (diagonals included)
-        #neighbors = get_neighbors4(coord) # This version looks at 4 neighbors per square (diagonals not included)
+        #neighbors = get_neighbors8(coord) # This version looks at 8 neighbors per square (diagonals included)
+        neighbors = get_neighbors4(coord) # This version looks at 4 neighbors per square (diagonals not included)
         for neighbor in neighbors:
             mark_island(neighbor, grid, num_rows, num_cols) # Recursively looks at the neighbors of that square to see if they're also land tiles.
 
