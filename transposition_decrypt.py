@@ -7,7 +7,7 @@ def main():
     message = 'Cenoonommstmme oo snnio. s s c'
     key = 8
 
-    plaintext = decryptMessage(key, message)
+    plaintext = decrypt_message(key, message)
 
     # Print with a | pipe character after it in case
     # there are spaces at the end of the decrypted message:
@@ -16,7 +16,7 @@ def main():
     pyperclip.copy(plaintext)
 
 
-def decryptMessage(key, message):
+def decrypt_message(key, message):
     # The transposition decrypt function will simulate the "columns" and
     # "rows" of the grid that the plaintext is written on by using a list of strings.
     # First, we need to calculate a few values.
