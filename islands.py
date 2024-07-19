@@ -2,13 +2,7 @@
 
 def make_grid(num_rows, num_cols):
     import random
-    grid = []
-    for _x in range(0, num_rows):
-        row = []
-        for _y in range(0, num_cols):
-            row.append(random.randint(0,1))
-        grid.append(row)
-    return grid
+    return [[random.randint(0,1) for _col in range(0, num_cols)] for _row in range(0, num_rows)]
 
 
 def get_neighbors8(coord):
@@ -17,17 +11,12 @@ def get_neighbors8(coord):
     col = coord[1] 
 
     possible_rows = (row-1, row, row+1)
-    possible_files = (col-1, col, col+1)
+    possible_cols = (col-1, col, col+1)
 
     # Get all permutations of filteredRows and filteredFiles.
-    neighbors = set()
-    for r in possible_rows:
-        for f in possible_files:
-            neighbors.add((r, f))
-
+    neighbors = {(r,c) for c in possible_cols for r in possible_rows}
     neighbors.remove((row, col)) # Remove the original square
     return(neighbors)
-
 
 def get_neighbors4(coord):
     # Returns a set of coordinates of the neighbors of a square.
@@ -60,8 +49,8 @@ def mark_island(coord, grid, num_rows, num_cols):
     # Note: We're passing num_rows and num_cols because they're constants and not recalculating each time saves time.
     if check_grid(coord, grid, num_rows, num_cols) == 1:
         grid[coord[0]][coord[1]] = 2    # Sets the grid's value at coord to "2", which indicates that square is part of an already counted island.
-        #neighbors = get_neighbors8(coord) # This version looks at 8 neighbors per square (diagonals included)
-        neighbors = get_neighbors4(coord) # This version looks at 4 neighbors per square (diagonals not included)
+        neighbors = get_neighbors8(coord) # This version looks at 8 neighbors per square (diagonals included)
+        #neighbors = get_neighbors4(coord) # This version looks at 4 neighbors per square (diagonals not included)
         for neighbor in neighbors:
             mark_island(neighbor, grid, num_rows, num_cols) # Recursively looks at the neighbors of that square to see if they're also land tiles.
 
@@ -75,8 +64,7 @@ def islands(grid):
         for y, value in enumerate(row):
             if int(value) == 1: # ...if we encounter a tile that is a land tile that's not part of an existing island ('1')...
                 num_islands += 1 # ...increment the number of islands and...
-                coord = (x, y)
-                mark_island(coord, grid, num_rows, num_cols) # ...recursively mark off all tiles that are part of that island.
+                mark_island((x, y), grid, num_rows, num_cols) # ...recursively mark off all tiles that are part of that island.
 
     print(f"Number of islands is: {num_islands}\n")
     return num_islands
