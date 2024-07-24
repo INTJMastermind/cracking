@@ -24,9 +24,8 @@ def main():
             sys.exit()
     
     # Read in the message from the input file:
-    file_obj = open(input_filename)
-    content = file_obj.read()
-    file_obj.close()
+    with open(input_filename) as file_obj:
+        content = file_obj.read()
 
     print(f'{my_mode}ing...')
 
@@ -39,9 +38,8 @@ def main():
     total_time = round(time.time() - start_time, 2)
     print(f'{my_mode}ion time: {total_time} seconds.')
 
-    output_file_obj = open(output_filename, 'w')
-    output_file_obj.write(translated)
-    output_file_obj.close()
+    with open(output_filename, 'w') as output_file_obj:
+        output_file_obj.write(translated)
 
     print(f'Done {my_mode}ing {input_filename} ({len(content)} characters).')
     print(f'{my_key}ed file is {output_filename}')
