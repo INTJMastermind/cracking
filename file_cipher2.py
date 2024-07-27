@@ -1,14 +1,13 @@
 import time
 import os
 import sys
-import transposition_encrypt
-import transposition_decrypt
+import transposition_cipher as tc
 
 def main():
-    input_filename = "frankenstein_encrypted.txt"
-    output_filename = "frankenstein_decrypted.txt"
+    input_filename = "frankenstein_encrypted2.txt"
+    output_filename = "frankenstein_decrypted2.txt"
 
-    my_key = 9
+    my_key = 'abcdefghi'
     my_mode = 'decrypt' # Set to 'encrypt' or 'decrypt'
 
     # If the input file does not exist, terminate the program early.
@@ -32,9 +31,9 @@ def main():
     #Measure how long the encryption / decryption takes:
     start_time = time.time()
     if my_mode == 'encrypt':
-        translated = transposition_encrypt.encrypt_message(my_key, content)
+        translated = tc.encrypt(my_key, content)
     elif my_mode == 'decrypt':
-        translated = transposition_decrypt.decrypt_message(my_key, content)
+        translated = tc.decrypt(my_key, content)
     total_time = round(time.time() - start_time, 2)
     print(f'{my_mode}ion time: {total_time} seconds.')
 

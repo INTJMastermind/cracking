@@ -1,106 +1,75 @@
 import math
 
-def is_key_valid(key, message):
+def get_ordinals(key):
     """
-    Checks if a key is valid:
-    1. Length less than half of message
-    2. No repeated letters in key
+    Returns a list with the ordinal values of the key in alphabetical order
     """
-    # Check if length of key is less than half that of message.
-    if len(key) > len(message)//2:
-        print(f'ERROR: Invalid Key: {key}\nKey is too long for message\nMaximum length of key: {len(message)//2} characters.\nCurrent key length: {len(key)} characters.')
-        return False
-    
-    # Check if key contains repeat characters.
-    for char in key:
-        if key.count(char) > 1:
-            print(f'ERROR: Key {key} cannot contain repeated characters.')
-            return False
-    
-    return True
+    sorted_keys = sorted(key)
+    ordinals = []
+    for letter in key:
+        index = sorted_keys.index(letter)
+        ordinals.append(index)
+        sorted_keys[index] = 0
+
+    return ordinals
+
 
 def encrypt(key, message):
-    """
-    Encrypts a message using transposition cipher.
-    """
-    # Check if key is valid
-    if is_key_valid(key, message) == False:
-        return False
-    
-    # Create a dictionary using letters from key
-    lines = dict.fromkeys(key, '')
+    ordinals = get_ordinals(key)
+    lines = ['']*len(key)
 
-    # Main loop for transposition cipher:
     i = 0
     for char in message:
-        lines[key[i]] += char
-        
-        # Cycle to the next letter in the key, or back to the start if at the end.
-        if i == len(key) - 1:
+        lines[ordinals[i]] += char
+        i += 1
+        if i == len(key):
             i = 0
-        else:
-            i += 1
 
-    # Arrange each line alphabetically based on key.
-    sorted_lines = [lines[letter] for letter in sorted(key)]
-    return ''.join(sorted_lines)
+    return ''.join(lines)
 
 
 def decrypt(key, message):
-    """
-    Decrypts a message using a transposition cipher.
-    """
-    # Check if key is valid
-    if is_key_valid(key, message) == False:
-        return False
+    ordinals = get_ordinals(key)
+    num_columns = len(key)
+    num_rows = math.ceil(len(message) / len(key))
+    num_blanks = num_columns*num_rows - len(message)
 
-    sorted_key = sorted(key)
-    num_columns = math.ceil(len(message) / len(key))
-    num_blanks = num_columns*len(key) - len(message)
-    if num_blanks > 0:
-        blank_letters = key[-num_blanks:]
-    else:
-        blank_letters = ''
+    # Each string in plaintext represents a column in the grid:
+    plaintext = [[None]*num_columns for i in range(num_rows)]
     
-    # Create a dictionary using letters from key
-    lines = dict.fromkeys(key, '')
-
-    # Fill in the transposition cipher matrix by letter in key alphabetically.
+    # The column and row variables point to where in the grid the next 
+    # character in the encrypted message will go:
+    column = 0
     row = 0
-    col = 1
-    for char in message:
-        lines[sorted_key[row]] += char
-        if col == num_columns or (col == num_columns - 1 and sorted_key[row] in blank_letters):
-            col = 1
-            row += 1
-        else:
-            col += 1
-    
-    # Rearrange the matrix in the order the key letters appear:
-    sorted_lines = [lines[letter] for letter in key]
 
-    # Read down the columns and across the rows to create the message:
-    row = 0
-    col = 0
-    decrypted = ''
-    for i in range(len(message)):
-        decrypted += sorted_lines[row][col]
-        if row == len(key) - 1:
+    for symbol in message:
+        plaintext[row][ordinals.index(column)] = symbol
+        row += 1 #advance to the next row
+
+        # If there are no more rows OR we're at a shaded box, go back 
+        # to the first row and the next column:
+        if (row == num_rows) or (row == num_rows - 1 and ordinals.index(column) >= num_columns - num_blanks):
+            column += 1
             row = 0
-            col += 1
-        else:
-            row += 1
 
-    return decrypted
+    text = ''
+    for row in plaintext:
+        while None in row:
+            row.remove(None)
+        word = ''.join(row)
+        text += word
+
+    return text
 
 
 def main():
-    key = 'dogs'
-    message = 'Poopy the magic schnoodle'
+    key = 'armymen'
+    message = 'GEEKS FOR GREEKS'
+
     m1 = encrypt(key, message)
+    print(f'{message} encrypts to: {m1}')
     m2 = decrypt(key, m1)
     
-    print(f'{message} encrypts to: {m1}')
     print(f'{m1} decrypts to: {m2}')
     
 
