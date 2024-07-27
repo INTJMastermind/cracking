@@ -4,44 +4,45 @@ import sys
 import transposition_cipher as tc
 
 def main():
-    input_filename = "frankenstein_encrypted2.txt"
-    output_filename = "frankenstein_decrypted2.txt"
+    """
+    Performs a double transposition encryption, followed by a double-transposition decryption using the same keys.
+    """
+    file_name = "frankenstein"
+    input_file = file_name+".txt"
+    encrypted_file = file_name+"_encrypted.txt"
+    decrypted_file = file_name+"_decrypted.txt"
 
-    my_key = 'abcdefghi'
-    my_mode = 'decrypt' # Set to 'encrypt' or 'decrypt'
-
+    key1 = 'maryshelly'
+    key2 = 'frankenstein'
+    
     # If the input file does not exist, terminate the program early.
-    if not os.path.exists(input_filename):
-        print(f'The file {input_filename} does not exist. Quitting...')
+    if not os.path.exists(input_file):
+        print(f'The file {input_file} does not exist. Quitting...')
         sys.exit()
 
-    # If output file already exists, give the user a chance to quit.
-    if os.path.exists(output_filename):
-        print(f'This will overwrite the file {output_filename}. (C)ontinue or (Q)uit?')
-        response = input('> ')
-        if not response.lower().startswith('c'):
-            sys.exit()
-    
     # Read in the message from the input file:
-    with open(input_filename) as file_obj:
-        content = file_obj.read()
-
-    print(f'{my_mode}ing...')
+    with open(input_file) as f:
+        content = f.read()
 
     #Measure how long the encryption / decryption takes:
     start_time = time.time()
-    if my_mode == 'encrypt':
-        translated = tc.encrypt(my_key, content)
-    elif my_mode == 'decrypt':
-        translated = tc.decrypt(my_key, content)
+
+    #Perform two transposition encryptions using key1 and key2.
+    encrypted = tc.encrypt(key2, tc.encrypt(key1, content))
+
+    #Perform two transposition decryptions using key1 and key2.
+    decrypted = tc.decrypt(key1, tc.decrypt(key2, encrypted))
+
+    #Calculate the total time for both operations.
     total_time = round(time.time() - start_time, 2)
-    print(f'{my_mode}ion time: {total_time} seconds.')
+    print(f'Total time: {total_time} seconds.')
 
-    with open(output_filename, 'w') as output_file_obj:
-        output_file_obj.write(translated)
+    # Write the encrypted and decrypted files.
+    with open(encrypted_file, 'w') as f:
+        f.write(encrypted)
 
-    print(f'Done {my_mode}ing {input_filename} ({len(content)} characters).')
-    print(f'{my_key}ed file is {output_filename}')
+    with open(decrypted_file, 'w') as f:
+        f.write(decrypted)
 
 if __name__ == '__main__':
     main()
