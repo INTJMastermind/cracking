@@ -43,7 +43,7 @@ def decrypt(key, message):
     row = 0
 
     for char in message:
-        matrix[row][ordinals[col]] = char
+        matrix[row, ordinals[col]] = char
         row += 1
         # If there are no more rows OR we're at a shaded box, go back to the first row and the next col:
         if (row == num_rows) or (row == num_rows - 1 and ordinals[col] >= num_cols - num_blanks):
